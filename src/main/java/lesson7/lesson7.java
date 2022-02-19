@@ -8,7 +8,7 @@ public class lesson7 {
 
     public static void main(String[] args) {
         String a = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader("lesson7/InputText.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/java/lesson7/InputText.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                  a = a + line;
@@ -20,7 +20,7 @@ public class lesson7 {
 
         String result = changeText(a);
 
-        try (BufferedWriter writter = new BufferedWriter(new FileWriter("lesson7/OutputText.txt"))) {
+        try (BufferedWriter writter = new BufferedWriter(new FileWriter("src/main/java/lesson7/OutputText.txt"))) {
 
                 writter.write(result);
 
