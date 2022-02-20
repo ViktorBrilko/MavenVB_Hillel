@@ -1,6 +1,6 @@
 package lesson7;
 
-import org.junit.Test;
+
 
 import java.io.*;
 
@@ -11,7 +11,7 @@ public class lesson7 {
         try (BufferedReader reader = new BufferedReader(new FileReader("src/main/java/lesson7/InputText.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                 a = a + line;
+                 a = a + line + " ";
             }
         }
         catch (IOException e) {
