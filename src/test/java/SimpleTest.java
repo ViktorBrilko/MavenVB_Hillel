@@ -8,8 +8,12 @@ import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import pages.AutorizationPage;
 import utils.PropertyReader;
+
+import java.util.concurrent.TimeUnit;
 
 public class SimpleTest {
     private static WebDriver driver;
@@ -20,7 +24,14 @@ public class SimpleTest {
         switch (browser) {
             case ("chrome") -> {
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("start-maximized");
+                chromeOptions.addArguments("version");
+
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+                driver = new ChromeDriver(chromeOptions);
                 break;
             }
             case ("firefox") -> {
@@ -35,9 +46,15 @@ public class SimpleTest {
     @Test
     public void contactUsTest() throws InterruptedException {
         driver.get(PropertyReader.BASEURL);
-        driver.findElement(By.xpath("//div[@id='contact-link']")).click();
-        WebElement navigationSpan = driver.findElement(By.xpath("//span[@class='navigation_page']"));
-        Assertions.assertEquals(navigationSpan.getText(), "Contact");
+        By signIn = By.xpath("//div[@id='contact-link']");
+        driver.findElement(signIn).click();
+        By navigationSpan = By.xpath("//span[@class='navigation_page']");
+        Assertions.assertTrue(driver.findElement(navigationSpan).isDisplayed());
+
+        AutorizationPage autorizationPage = new AutorizationPage(driver);
+        autorizationPage.navigateHere();
+        autorizationPage.checkOnPage();
+        autorizationPage.doAuthorize("skillupdemo@gmail.com", "12345");
         Thread.sleep(2000);
     }
 
